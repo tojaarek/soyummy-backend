@@ -16,7 +16,6 @@ ownRecipesRouter.get('/', authMiddleware, getOwnRecipesHandler);
 ownRecipesRouter.post(
   '/add',
   authMiddleware,
-  upload.single('thumb'),
   addRecipeHandler
 );
 ownRecipesRouter.delete('/:recipeId', authMiddleware, deleteRecipeHandler);

@@ -33,11 +33,5 @@ usersRouter.patch(
   userNameValidator,
   updateUserNameHandler
 );
-usersRouter.patch(
-  '/current/avatar',
-  authMiddleware,
-  upload.single('avatar'),
-  updateUserAvatar
-);
 
 module.exports = usersRouter;
