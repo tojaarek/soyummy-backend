@@ -1,0 +1,29 @@
+{
+  "name": "soyummy",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^1.6.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jimp": "^0.22.10",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "mimetypes": "^0.1.1",
+    "mongoose": "^7.6.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nanoid": "^3.3.4",
+    "nodemailer": "^6.9.7",
+    "nodemon": "^3.0.1",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=production node ./server.js",
+    "server:dev": "cross-env NODE_ENV=development nodemon --inspect ./server.js"
+  }
+}
