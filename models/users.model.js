@@ -35,7 +35,7 @@ const usersSchema = new Schema(
     },
     avatar: {
       type: String,
-      default: 'http://localhost:3030/avatars/basic_avatar.png',
+      default: 'https://soyummy-h1wx.onrender.com/avatars/basic_avatar.png',
     },
   },
   { versionKey: false, timestamps: true }
