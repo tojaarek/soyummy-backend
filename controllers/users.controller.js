@@ -32,7 +32,7 @@ const registerHandler = async (req, res, next) => {
       user: {
         name: name,
         email: email,
-        avatar: 'http//:localhost:3030/avatars/basic_avatar',
+        avatar: 'https://soyummy-h1wx.onrender.com/avatars/basic_avatar',
       },
     });
   } catch (error) {
@@ -190,7 +190,7 @@ const updateUserAvatar = async (req, res, next) => {
     const mimetype = req.file.mimetype;
     const avatar = await changeAvatarFile(filePath, id, mimetype);
     const updatedUser = await updateUser(id, {
-      avatar: `http://localhost:3030/avatars/${avatar}`,
+      avatar: `https://soyummy-h1wx.onrender.com/avatars/${avatar}`,
     });
 
     return res.status(200).json({

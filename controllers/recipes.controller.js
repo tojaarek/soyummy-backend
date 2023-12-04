@@ -30,7 +30,7 @@ const addRecipeHandler = async (req, res, next) => {
       category,
       instructions,
       description,
-      thumb: `http://localhost:3030/thumbs/${picture}`,
+      thumb: `https://soyummy-h1wx.onrender.com/thumbs/${picture}`,
       time,
       ingredients: ingredientsArray,
       owner: currentUser._id,
