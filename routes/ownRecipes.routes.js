@@ -5,10 +5,6 @@ const {
   deleteRecipeHandler,
   getOwnRecipesHandler,
 } = require('../controllers/recipes.controller.js');
-const {
-  addRecipeValidator,
-} = require('../middleware/recipeDataValidator.middleware.js');
-const { upload } = require('../middleware/multer.middleware.js');
 
 const ownRecipesRouter = express.Router();
 

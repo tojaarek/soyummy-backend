@@ -6,7 +6,6 @@ const {
   logOutHandler,
   currentUserHandler,
   updateUserNameHandler,
-  updateUserAvatar,
 } = require('../controllers/users.controller.js');
 const {
   userRegisterValidator,
@@ -18,7 +17,6 @@ const {
   userNameValidator,
 } = require('../middleware/userNameValidator.middleware.js');
 const { authMiddleware } = require('../service/auth.service.js');
-const { upload } = require('../middleware/multer.middleware.js');
 
 const usersRouter = express.Router();
 
