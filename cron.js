@@ -1,7 +1,7 @@
 const cron = require('cron');
 const https = require('https');
 
-const url = 'https://soyummy-h1wx.onrender.com/docs';
+const url = 'https://soyummy-h1wx.onrender.com/avatars/basic_avatar.png';
 const job = new cron.CronJob('*/14 * * * *', function () {
 
     console.log('Restarting server');
