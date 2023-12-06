@@ -1,7 +1,7 @@
 const cron = require('cron');
 const https = require('https');
 
-const url = 'https://soyummy-h1wx.onrender.com/avatars/basic_avatar.png';
+const url = 'https://soyummy-h1wx.onrender.com/docs';
 const job = new cron.CronJob('*/14 * * * *', function () {
 
     console.log('Restarting server');
@@ -14,7 +14,7 @@ const job = new cron.CronJob('*/14 * * * *', function () {
         }
     })
     .on('error', (error) => {
-        console.error("Error during restart:", error.mesage);
+        console.error("Error during restart:", error.message);
     });
 });
 
