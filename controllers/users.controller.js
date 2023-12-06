@@ -127,10 +127,10 @@ const logOutHandler = async (req, res, next) => {
 
 const currentUserHandler = async (req, res, next) => {
   const tokenWithBearer = req.get('Authorization');
-  const token = tokenWithBearer ? tokenWithBearer.split(' ')[1] : null;
+  const userToken = tokenWithBearer ? tokenWithBearer.split(' ')[1] : null;
   try {
-    const { name, email, newsletter, avatar, verified, createdAt, updatedAt } =
-      await getUser({ token });
+    const { name, email, avatar, token } =
+      await getUser({ userToken });
     if (token === null) {
       return res.status(401).json({
         status: 'error',
@@ -141,14 +141,11 @@ const currentUserHandler = async (req, res, next) => {
     return res.status(200).json({
       status: 'OK',
       code: 200,
+      token: token,
       user: {
         name: name,
         email: email,
-        newsletter: newsletter,
         avatar: avatar,
-        verified: verified,
-        created: createdAt,
-        updated: updatedAt,
       },
     });
   } catch (error) {
@@ -161,14 +158,6 @@ const updateUserNameHandler = async (req, res, next) => {
   try {
     const { name } = req.body;
     const updatedUser = await updateUser(req.user._id, { name });
-
-    if (!updatedUser) {
-      return res.status(404).json({
-        status: 'fail',
-        code: 404,
-        message: 'User not found',
-      });
-    }
 
     res.status(200).json({
       status: 'success',

@@ -22,7 +22,7 @@ const addIngredientHandler = async (req, res, next) => {
         message: 'Internal Server Error',
       });
     }
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       code: 200,
       message: 'Ingredient added',
@@ -48,7 +48,7 @@ const deleteIngredientHandler = async (req, res, next) => {
         message: 'Internal Server Error',
       });
     }
-    res.status(201).json({
+    res.status(200).json({
       status: 'success',
       code: 200,
       message: 'Ingredient deleted',
