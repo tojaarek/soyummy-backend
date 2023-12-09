@@ -12,7 +12,7 @@ const getFavoritesHandler = async (req, res, next) => {
     const { data, totalCount } = await getUserFavorites(_id, page, limit);
 
     if (data.length > 0) {
-      const favorites = data.map(favourite => ({
+      const favorites = data.map((favourite) => ({
         id: favourite._id,
         title: favourite.title,
         description: favourite.description,
@@ -47,6 +47,14 @@ const addToFavoritesHandler = async (req, res, next) => {
     const { _id } = req.user;
     const data = await addToFavorites(recipeId, _id);
 
+    if (!recipeId) {
+      return res.status(400).json({
+        status: 'Bad request',
+        code: 400,
+        message: 'recipeId id required',
+      });
+    }
+
     if (!data) {
       return res.status(500).json({
         status: 'error',
@@ -71,7 +79,6 @@ const deleteFromFavoritesHandler = async (req, res, next) => {
   try {
     const { recipeId } = req.body;
     const { _id } = req.user;
-    console.log(recipeId);
     const data = await deleteFromFavorites(recipeId, _id);
 
     if (!data) {

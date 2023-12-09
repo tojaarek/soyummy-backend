@@ -5,6 +5,9 @@ const {
   addIngredientHandler,
   deleteIngredientHandler,
 } = require('../controllers/shoppingList.controller.js');
+const {
+  shoppingListValidator,
+} = require('../middleware/shoppingList.middleware.js');
 
 const shoppingListRouter = express.Router();
 
@@ -60,7 +63,7 @@ const shoppingListRouter = express.Router();
  *                       thumb:
  *                         type: string
  *                         description: URL to the thumbnail image of the ingredient.
- *                         example: https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e36e8.png
+ *                         example: https://example.com/images/example.jpg
  *                       measure:
  *                         type: string
  *                         description: Measurement unit for the ingredient.
@@ -124,7 +127,6 @@ const shoppingListRouter = express.Router();
  *                   example: 'Internal Server Error'
  */
 
-
 shoppingListRouter.get('/', authMiddleware, getShoppingListHandler);
 
 /**
@@ -164,7 +166,7 @@ shoppingListRouter.get('/', authMiddleware, getShoppingListHandler);
  *             thumb:
  *               type: string
  *               description: URL to the thumbnail image of the ingredient.
- *               example: https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3689.png
+ *               example: https://example.com/images/example.jpg
  *             measure:
  *               type: string
  *               description: Measurement unit for the ingredient.
@@ -204,13 +206,13 @@ shoppingListRouter.get('/', authMiddleware, getShoppingListHandler);
  *                     thumb:
  *                       type: string
  *                       description: URL to the thumbnail image of the ingredient.
- *                       example: https://ftp.goit.study/img/so-yummy/ingredients/640c2dd963a319ea671e3689.png
+ *                       example: https://example.com/images/example.jpg
  *                     measure:
  *                       type: string
  *                       description: Measurement unit for the ingredient.
- *                       example: 1
- *       500:
- *         description: Internal Server Error.
+ *                       example: 1 kg
+ *       400:
+ *         description: Bad Request.
  *         content:
  *           application/json:
  *             schema:
@@ -223,11 +225,11 @@ shoppingListRouter.get('/', authMiddleware, getShoppingListHandler);
  *                 code:
  *                   type: integer
  *                   description: HTTP status code.
- *                   example: 500
+ *                   example: 400
  *                 message:
  *                   type: string
  *                   description: A message describing the error.
- *                   example: 'Internal Server Error'
+ *                   example: "Title is required"
  *       401:
  *         description: Unauthorized. Invalid or missing authentication token.
  *         content:
@@ -247,9 +249,123 @@ shoppingListRouter.get('/', authMiddleware, getShoppingListHandler);
  *                   type: string
  *                   description: A message describing the error.
  *                   example: 'Unauthorized'
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Internal Server Error'
  */
 
-shoppingListRouter.post('/add', authMiddleware, addIngredientHandler);
+shoppingListRouter.post(
+  '/add',
+  authMiddleware,
+  shoppingListValidator,
+  addIngredientHandler
+);
+
+/**
+ * @swagger
+ * /shopping-list/delete/{index}:
+ *   delete:
+ *     summary: Delete ingredient from shopping list.
+ *     description:
+ *       Deletes an ingredient from the user's shopping list based on the provided index.
+ *       Requires a valid authentication token in the Authorization header.
+ *     security:
+ *       - BearerAuth: []
+ *     tags:
+ *       - shopping-list
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         description: Bearer token for authentication.
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: index
+ *         description: The index of the ingredient to be deleted from the shopping list.
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Ingredient deleted successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the operation.
+ *                   example: success
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 200
+ *                 message:
+ *                   type: string
+ *                   description: A message indicating success.
+ *                   example: 'Ingredient deleted'
+ *                 deletedIngredient:
+ *                   type: integer
+ *                   description: The index of the deleted ingredient.
+ *                   example: 3
+ *       401:
+ *         description: Unauthorized. Invalid or missing authentication token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 401
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Unauthorized'
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Internal Server Error'
+ */
+
 shoppingListRouter.delete('/:index', authMiddleware, deleteIngredientHandler);
 
 module.exports = shoppingListRouter;

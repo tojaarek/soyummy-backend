@@ -1,27 +1,54 @@
 const Joi = require('joi');
+const { upload } = require('../middleware/multer.middleware.js');
 
 const addRecipeSchema = Joi.object({
   title: Joi.string().required(),
   category: Joi.string().required(),
-  instructions: Joi.array().required(),
+  instructions: Joi.string().required(),
   description: Joi.string().required(),
-  thumb: Joi.string(),
   time: Joi.string().required(),
-  ingredients: Joi.array().required(),
+  ingredients: Joi.string().required(),
 });
 
 const addRecipeValidator = (req, res, next) => {
-  const { error } = addRecipeSchema.validate(req.body);
+  upload.single('thumb')(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: err.message,
+      });
+    }
+    if (!req.file) {
+      return res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'Image file is required',
+      });
+    }
 
-  if (error) {
-    return res.status(400).json({
-      status: 'error',
-      code: 400,
-      message: error.message,
+    const { title, category, instructions, description, time, ingredients } =
+      req.body;
+
+    const { error } = addRecipeSchema.validate({
+      title,
+      category,
+      instructions,
+      description,
+      time,
+      ingredients,
     });
-  }
 
-  return next();
+    if (error) {
+      return res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: error.message,
+      });
+    }
+
+    return next();
+  });
 };
 
 module.exports = {

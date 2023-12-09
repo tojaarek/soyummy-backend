@@ -135,6 +135,7 @@ const getOwnRecipesHandler = async (req, res, next) => {
 const getCategoriesHandler = async (req, res, next) => {
   try {
     const data = await getCategories();
+    console.log(data);
 
     if (data.length > 0) {
       const categories = data.map(({ _id, title, thumb, description }) => ({
@@ -191,8 +192,8 @@ const getPopularRecipesHandler = async (req, res, next) => {
 
 const getCategoryRecipesHandler = async (req, res, next) => {
   try {
-    const { categoryId } = req.params;
-    const data = await getCategoryRecipes(categoryId);
+    const { categoryName } = req.params;
+    const data = await getCategoryRecipes(categoryName);
 
     if (data.length > 0) {
       return res.status(200).json({
@@ -217,13 +218,26 @@ const getRecipeByIdHandler = async (req, res, next) => {
   try {
     const recipeId = req.params.recipeId;
     const recipe = await getRecipeById(recipeId);
+
     if (recipe === null) {
-      res.status(404).json({
+      return res.status(404).json({
         status: 'fail',
         code: 404,
         message: 'Not found',
       });
     }
+
+    if (recipe.owner) {
+      const userId = req.user.id;
+      if (recipe.owner.id !== userId) {
+        return res.status(403).json({
+          status: 'fail',
+          code: 403,
+          message: 'Forbidden',
+        });
+      }
+    }
+
     res.status(200).json({
       status: 'success',
       code: 200,
@@ -247,7 +261,7 @@ const getRecipesByTitleHandler = async (req, res, next) => {
       });
     }
 
-    const data = recipes.map(recipe => ({
+    const data = recipes.map((recipe) => ({
       id: recipe._id,
       title: recipe.title,
       thumb: recipe.thumb,

@@ -23,6 +23,7 @@ const recipesSchema = new Schema(
     },
     thumb: {
       type: String,
+      required: [true, 'Image is required'],
     },
     preview: {
       type: String,

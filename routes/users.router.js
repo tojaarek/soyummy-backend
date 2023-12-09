@@ -28,8 +28,8 @@ const usersRouter = express.Router();
  *   post:
  *     summary: Creates a new user.
  *     description: Creates a new user and retrieves user data from the database.
-  *     tags:
- *       - Users
+ *     tags:
+ *       - users
  *     requestBody:
  *       required: true
  *       content:
@@ -87,7 +87,7 @@ const usersRouter = express.Router();
  *                     avatar:
  *                       type: string
  *                       description: User avatar url.
- *                       example: https://soyummy-h1wx.onrender.com/avatars/basic_avatar
+ *                       example: https://example.com/images/example.jpg
  *       400:
  *         description: Bad Request.
  *         content:
@@ -130,6 +130,25 @@ const usersRouter = express.Router();
  *                   type: string
  *                   description: Additional data about the error.
  *                   example: 'Conflict'
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Internal Server Error'
  */
 
 usersRouter.post('/register', userRegisterValidator, registerHandler);
@@ -141,7 +160,7 @@ usersRouter.post('/register', userRegisterValidator, registerHandler);
  *     summary: User authentication.
  *     description: Allows access to the app.
  *     tags:
- *       - Users
+ *       - users
  *     requestBody:
  *       required: true
  *       content:
@@ -191,7 +210,7 @@ usersRouter.post('/register', userRegisterValidator, registerHandler);
  *                     avatar:
  *                       type: string
  *                       description: User avatar url.
- *                       example: https://soyummy-h1wx.onrender.com/avatars/basic_avatar
+ *                       example: https://example.com/images/example.jpg
  *       400:
  *         description: Bad Request.
  *         content:
@@ -230,6 +249,25 @@ usersRouter.post('/register', userRegisterValidator, registerHandler);
  *                   type: string
  *                   description: A message describing the error.
  *                   example: "Incorrect email or password"
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Internal Server Error'
  */
 
 usersRouter.post('/signin', userSignInValidator, signInHandler);
@@ -243,7 +281,7 @@ usersRouter.post('/signin', userSignInValidator, signInHandler);
  *     security:
  *       - BearerAuth: []
  *     tags:
- *       - Users
+ *       - users
  *     parameters:
  *       - in: header
  *         name: Authorization
@@ -286,6 +324,25 @@ usersRouter.post('/signin', userSignInValidator, signInHandler);
  *                   type: string
  *                   description: A message describing the error.
  *                   example: 'Unauthorized'
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Internal Server Error'
  */
 
 usersRouter.post('/logout', authMiddleware, logOutHandler);
@@ -302,7 +359,7 @@ usersRouter.get('/verify/:verificationToken', accountVerifyHandler);
  *     security:
  *       - BearerAuth: []
  *     tags:
- *       - Users
+ *       - users
  *     parameters:
  *       - in: header
  *         name: Authorization
@@ -344,7 +401,7 @@ usersRouter.get('/verify/:verificationToken', accountVerifyHandler);
  *                     avatar:
  *                       type: string
  *                       description: User avatar url.
- *                       example: https://soyummy-h1wx.onrender.com/avatars/basic_avatar
+ *                       example: https://example.com/images/example.jpg
  *       401:
  *         description: Unauthorized. Invalid or missing authentication token.
  *         content:
@@ -364,6 +421,25 @@ usersRouter.get('/verify/:verificationToken', accountVerifyHandler);
  *                   type: string
  *                   description: A message describing the error.
  *                   example: 'Unauthorized'
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Internal Server Error'
  */
 
 usersRouter.get('/current', authMiddleware, currentUserHandler);
@@ -379,7 +455,7 @@ usersRouter.get('/current', authMiddleware, currentUserHandler);
  *     security:
  *       - BearerAuth: []
  *     tags:
- *       - Users
+ *       - users
  *     parameters:
  *       - in: header
  *         name: Authorization
@@ -435,7 +511,7 @@ usersRouter.get('/current', authMiddleware, currentUserHandler);
  *                         avatar:
  *                           type: string
  *                           description: User avatar url.
- *                           example: https://soyummy-h1wx.onrender.com/avatars/basic_avatar
+ *                           example: https://example.com/images/example.jpg
  *       401:
  *         description: Unauthorized. Invalid or missing authentication token.
  *         content:
@@ -474,8 +550,26 @@ usersRouter.get('/current', authMiddleware, currentUserHandler);
  *                   type: string
  *                   description: A message describing the error.
  *                   example: 'Invalid request data: name is required.'
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Internal Server Error'
  */
-
 
 usersRouter.patch(
   '/current/name',
@@ -495,7 +589,7 @@ usersRouter.patch(
  *     security:
  *       - BearerAuth: []
  *     tags:
- *       - Users
+ *       - users
  *     parameters:
  *       - in: header
  *         name: Authorization
@@ -545,7 +639,7 @@ usersRouter.patch(
  *                         avatar:
  *                           type: string
  *                           description: User new avatar url.
- *                           example: https://soyummy-h1wx.onrender.com/avatars/new_avatar.jpg
+ *                           example: https://example.com/images/new_example.jpg
  *       400:
  *         description: Bad Request. Image file is required but not provided.
  *         content:
@@ -584,6 +678,25 @@ usersRouter.patch(
  *                   type: string
  *                   description: A message describing the error.
  *                   example: 'Unauthorized'
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   description: Status of the error.
+ *                   example: error
+ *                 code:
+ *                   type: integer
+ *                   description: HTTP status code.
+ *                   example: 500
+ *                 message:
+ *                   type: string
+ *                   description: A message describing the error.
+ *                   example: 'Internal Server Error'
  */
 
 usersRouter.patch(
