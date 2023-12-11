@@ -192,8 +192,8 @@ const getPopularRecipesHandler = async (req, res, next) => {
 
 const getCategoryRecipesHandler = async (req, res, next) => {
   try {
-    const { categoryName } = req.params;
-    const data = await getCategoryRecipes(categoryName);
+    const { categoryId } = req.params;
+    const data = await getCategoryRecipes(categoryId);
 
     if (data.length > 0) {
       return res.status(200).json({
