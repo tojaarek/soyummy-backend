@@ -229,7 +229,7 @@ const getRecipeByIdHandler = async (req, res, next) => {
 
     if (recipe.owner) {
       const userId = req.user.id;
-      if (recipe.owner.id !== userId) {
+      if (recipe.owner !== userId) {
         return res.status(403).json({
           status: 'fail',
           code: 403,
